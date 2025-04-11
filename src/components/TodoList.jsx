@@ -8,18 +8,24 @@ import {
   Button,
   Chip,
   Box,
+  Alert,
 } from '@mui/material';
 import { format } from 'date-fns';
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 
-// Get the API URL from environment variables or use default
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// Get the base URL from environment or current location
+const BASE_URL = import.meta.env.PROD 
+  ? window.location.origin 
+  : 'http://localhost:5000';
+
+const API_URL = `${BASE_URL}/api`;
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchTodos();
@@ -27,6 +33,7 @@ const TodoList = () => {
 
   const fetchTodos = async () => {
     try {
+      setLoading(true);
       console.log('Fetching from:', `${API_URL}/todos`);
       const response = await axios.get(`${API_URL}/todos`);
       setTodos(response.data);
@@ -34,6 +41,8 @@ const TodoList = () => {
     } catch (error) {
       console.error('Error fetching todos:', error);
       setError('Failed to load todos. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -7,9 +7,9 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-app-name.vercel.app', 'https://your-app-name.vercel.app'] 
-    : 'http://localhost:3000'
+  origin: '*', // Allow all origins during development
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  credentials: true
 }));
 
 app.use(express.json());
@@ -46,6 +46,9 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
+
+// Export the Express API
+module.exports = app;
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
