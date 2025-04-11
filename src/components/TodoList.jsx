@@ -14,10 +14,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Get the API URL from environment variables or use default
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchTodos();
@@ -25,10 +27,13 @@ const TodoList = () => {
 
   const fetchTodos = async () => {
     try {
+      console.log('Fetching from:', `${API_URL}/todos`);
       const response = await axios.get(`${API_URL}/todos`);
       setTodos(response.data);
+      setError(null);
     } catch (error) {
       console.error('Error fetching todos:', error);
+      setError('Failed to load todos. Please try again later.');
     }
   };
 
