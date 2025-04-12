@@ -6,6 +6,10 @@ import {
   Button,
   Typography,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -18,6 +22,7 @@ const AddTodo = () => {
     dueDate: '',
     notes: '',
     imageUrl: '',
+    priority: 'medium',
   });
 
   const handleChange = (e) => {
@@ -64,6 +69,20 @@ const AddTodo = () => {
             rows={4}
             margin="normal"
           />
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Priority</InputLabel>
+            <Select
+              name="priority"
+              value={formData.priority}
+              onChange={handleChange}
+              label="Priority"
+            >
+              <MenuItem value="low">Low</MenuItem>
+              <MenuItem value="medium">Medium</MenuItem>
+              <MenuItem value="high">High</MenuItem>
+              <MenuItem value="urgent">Urgent</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             fullWidth
             label="Due Date"

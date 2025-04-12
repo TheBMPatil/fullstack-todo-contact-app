@@ -6,6 +6,7 @@ import {
   Button,
   Typography,
   Box,
+  Avatar,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -17,6 +18,7 @@ const AddContact = () => {
     email: '',
     phone: '',
     notes: '',
+    imageUrl: '',
   });
 
   const handleChange = (e) => {
@@ -44,6 +46,22 @@ const AddContact = () => {
           Add New Contact
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
+            <Avatar
+              src={formData.imageUrl}
+              sx={{ width: 100, height: 100, mb: 2 }}
+            >
+              {formData.name.charAt(0)}
+            </Avatar>
+            <TextField
+              fullWidth
+              label="Image URL"
+              name="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleChange}
+              margin="normal"
+            />
+          </Box>
           <TextField
             fullWidth
             label="Name"

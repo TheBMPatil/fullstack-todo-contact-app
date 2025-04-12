@@ -8,6 +8,7 @@ const contactSchema = new mongoose.Schema({
   email: String,
   phone: String,
   notes: String,
+  imageUrl: String,
   createdAt: {
     type: Date,
     default: Date.now

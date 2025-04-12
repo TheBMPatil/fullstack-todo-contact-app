@@ -11,6 +11,11 @@ const todoSchema = new mongoose.Schema({
     enum: ['pending', 'completed', 'postponed'],
     default: 'pending'
   },
+  priority: {
+    type: String,
+    enum: ['low', 'medium', 'high', 'urgent'],
+    default: 'medium'
+  },
   dueDate: Date,
   notes: String,
   imageUrl: String,
