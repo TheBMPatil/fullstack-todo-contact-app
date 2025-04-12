@@ -19,6 +19,7 @@ import {
 import { format } from 'date-fns';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 
@@ -185,13 +186,23 @@ const TodoList = () => {
                   <Typography variant="h6" component="h2">
                     {todo.title}
                   </Typography>
-                  <IconButton 
-                    size="small" 
-                    color="error" 
-                    onClick={() => handleDeleteClick(todo)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <Box>
+                    <IconButton 
+                      size="small" 
+                      color="primary"
+                      component={RouterLink}
+                      to={`/edit-todo/${todo._id}`}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton 
+                      size="small" 
+                      color="error" 
+                      onClick={() => handleDeleteClick(todo)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
                 <Typography color="textSecondary" gutterBottom>
                   Due: {format(new Date(todo.dueDate), 'MMM dd, yyyy')}

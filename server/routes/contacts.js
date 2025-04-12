@@ -12,13 +12,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single contact
+router.get('/:id', async (req, res) => {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
+    res.json(contact);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Create a contact
 router.post('/', async (req, res) => {
   const contact = new Contact({
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
-    notes: req.body.notes
+    notes: req.body.notes,
+    imageUrl: req.body.imageUrl
   });
 
   try {
@@ -33,10 +47,17 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
-    if (req.body.name) contact.name = req.body.name;
-    if (req.body.email) contact.email = req.body.email;
-    if (req.body.phone) contact.phone = req.body.phone;
-    if (req.body.notes) contact.notes = req.body.notes;
+    if (!contact) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
+    
+    // Update all fields that are provided in the request
+    Object.keys(req.body).forEach(key => {
+      if (req.body[key] !== undefined) {
+        contact[key] = req.body[key];
+      }
+    });
+    
     const updatedContact = await contact.save();
     res.json(updatedContact);
   } catch (err) {
@@ -47,7 +68,10 @@ router.patch('/:id', async (req, res) => {
 // Delete contact
 router.delete('/:id', async (req, res) => {
   try {
-    await Contact.findByIdAndDelete(req.params.id);
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+    if (!contact) {
+      return res.status(404).json({ message: 'Contact not found' });
+    }
     res.json({ message: 'Contact deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });

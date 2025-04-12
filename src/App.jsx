@@ -6,6 +6,8 @@ import TodoList from './components/TodoList';
 import ContactList from './components/ContactList';
 import AddTodo from './components/AddTodo';
 import AddContact from './components/AddContact';
+import EditTodo from './components/EditTodo';
+import EditContact from './components/EditContact';
 
 const theme = createTheme({
   palette: {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/contacts" element={<ContactList />} />
           <Route path="/add-todo" element={<AddTodo />} />
           <Route path="/add-contact" element={<AddContact />} />
+          <Route path="/edit-todo/:id" element={<EditTodo />} />
+          <Route path="/edit-contact/:id" element={<EditContact />} />
         </Routes>
       </Router>
     </ThemeProvider>
